@@ -34,7 +34,7 @@ Já está pronto! O projeto já contém todos os arquivos necessários.
 
 #### Passo 3: Criar Repositório no GitHub
 1. Acesse: https://github.com/new
-2. Crie um repositório (ex: `whatsapp-manager`)
+2. Crie um repositório (ex: `whatsapp-manager-va`)
 3. No terminal do seu projeto, execute:
 
 ```bash
@@ -43,9 +43,19 @@ git init
 git add .
 git commit -m "Initial commit - WhatsApp Manager Modernizado"
 git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/whatsapp-manager.git
+git remote add origin https://github.com/bagas91/whatsapp-manager-va.git
 git push -u origin main
 ```
+
+git config --global user.email "cristian.thiago.gomes@gmail.com"
+git config --global user.name "Cristian"
+rm -r .git
+git init
+git add .
+git commit -m "Initial commit - WhatsApp Manager Modernizado"
+git branch -M main
+git remote add origin https://github.com/bagas91/whatsapp-manager-va.git
+git push -u origin main
 
 #### Passo 4: Deploy no Render
 1. No painel do Render, clique em "New +"
