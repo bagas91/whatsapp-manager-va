@@ -1,5 +1,4 @@
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
-const puppeteer = require('puppeteer'); // <-- adiciona puppeteer completo
 
 let ready = false;
 let lastQR = null;
@@ -7,9 +6,19 @@ let lastQR = null;
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    executablePath: puppeteer.executablePath(), // <-- força usar o Chromium baixado
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu',
+      '--disable-extensions'
+    ],
+    // Não definir executablePath - deixar o Puppeteer encontrar automaticamente
   }
 });
 
@@ -23,10 +32,14 @@ client.on('ready', async () => {
   lastQR = null;
   console.log('[WhatsApp] Conectado e pronto.');
 
-  const chats = await client.getChats();
-  chats.forEach(c => {
-    console.log('ID:', c.id._serialized, '| Nome:', c.name);
-  });
+  try {
+    const chats = await client.getChats();
+    chats.forEach(c => {
+      console.log('ID:', c.id._serialized, '| Nome:', c.name);
+    });
+  } catch (error) {
+    console.error('[WhatsApp] Erro ao listar chats:', error);
+  }
 });
 
 client.on('auth_failure', (msg) => {
@@ -34,7 +47,14 @@ client.on('auth_failure', (msg) => {
   console.error('[WhatsApp] Falha de autenticação:', msg);
 });
 
-client.initialize();
+client.on('disconnected', (reason) => {
+  ready = false;
+  console.log('[WhatsApp] Desconectado:', reason);
+});
+
+client.initialize().catch(err => {
+  console.error('[WhatsApp] Erro ao inicializar:', err);
+});
 
 function fileToMedia(file) {
   return MessageMedia.fromFilePath(file.path);
