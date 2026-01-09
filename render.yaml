@@ -3,7 +3,9 @@ services:
     name: whatsapp-manager
     env: node
     plan: free
-    buildCommand: pnpm install --frozen-lockfile && pnpx puppeteer browsers install chrome
+    buildCommand: |
+      pnpm install --frozen-lockfile
+      pnpx puppeteer browsers install chrome
     startCommand: node server.js
     healthCheckPath: /ping
     envVars:
