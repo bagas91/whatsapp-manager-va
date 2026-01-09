@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: whatsapp-manager
+    env: node
+    plan: free
+    buildCommand: pnpm install
+    startCommand: node server.js
+    healthCheckPath: /ping
+    envVars:
+      - key: NODE_VERSION
+        value: 22.13.0
+      - key: SENDER_MODE
+        value: mock
+      - key: PORT
+        value: 3000
+      - key: UPLOAD_DIR
+        value: uploads
