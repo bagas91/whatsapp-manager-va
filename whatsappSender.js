@@ -1,4 +1,5 @@
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
+const puppeteer = require('puppeteer'); // <-- adiciona puppeteer completo
 
 let ready = false;
 let lastQR = null;
@@ -6,6 +7,7 @@ let lastQR = null;
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
+    executablePath: puppeteer.executablePath(), // <-- força usar o Chromium baixado
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   }
@@ -14,12 +16,6 @@ const client = new Client({
 client.on('qr', (qr) => {
   lastQR = qr;
   console.log('[WhatsApp] QR atualizado.');
-});
-
-client.on('ready', () => {
-  ready = true;
-  lastQR = null;
-  console.log('[WhatsApp] Conectado e pronto.');
 });
 
 client.on('ready', async () => {
