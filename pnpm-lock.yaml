@@ -23,6 +23,9 @@ importers:
       node-cron:
         specifier: ^3.0.3
         version: 3.0.3
+      puppeteer:
+        specifier: ^24.34.0
+        version: 24.34.0(typescript@5.9.3)
       qrcode:
         specifier: ^1.5.3
         version: 1.5.4
