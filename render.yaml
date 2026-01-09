@@ -3,14 +3,14 @@ services:
     name: whatsapp-manager
     env: node
     plan: free
-    buildCommand: pnpm install
+    buildCommand: pnpm install && pnpx puppeteer browsers install chrome
     startCommand: node server.js
     healthCheckPath: /ping
     envVars:
       - key: NODE_VERSION
         value: 22.13.0
       - key: SENDER_MODE
-        value: mock
+        value: real
       - key: PORT
         value: 3000
       - key: UPLOAD_DIR
